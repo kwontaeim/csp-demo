@@ -2,9 +2,12 @@ const http = require('http');
 const fs = require('fs');
 const browserify = require('browserify');
 const db = require('level')('./db');
-const template = require('lodash').template(fs.readFileSync('index.html', 'utf8'));
+const template = require('lodash').template(fs.readFileSync('index.html'));
+const express = require('express');
+var app = express(); 
 
 let server = http.createServer((req, res) => {
+    res.setHeader('Content-Security-Policy-Report-Only', "default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; report-uri 'https://taeim.report-uri.com/r/d/csp/wizard';")
     switch(req.url) {
         case '/index.js':
             browserify('index.js').bundle().pipe(res);
@@ -35,6 +38,7 @@ let server = http.createServer((req, res) => {
     }
 })
 
+app.use(express.static('image/public'));
 server.listen(8080, () => {
     console.log('Server running at http//localhost:8080'); 
 })
