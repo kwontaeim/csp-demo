@@ -39,7 +39,7 @@ let server = http.createServer((req, res) => {
 })
 
 app.use(express.static('image/public'));
-server.listen(8080, () => {
+server.listen(process.env.PORT || 8080, () => {
     console.log('Server running at http//localhost:8080'); 
 })
 
